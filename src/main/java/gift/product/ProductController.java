@@ -14,6 +14,11 @@ public class ProductController {
         System.out.println("getAll");
         return products.values();
     }
+    @GetMapping("/product/get")
+    public Product getProduct(@RequestParam("id") Long id){
+        System.out.println("get");
+        return products.get(id);
+    }
 
     @PostMapping("/product/add")
     public Product addProduct(@RequestParam("id") Long id,
