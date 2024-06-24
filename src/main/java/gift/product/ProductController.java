@@ -9,6 +9,12 @@ import java.util.*;
 public class ProductController {
     private final Map<Long, Product> products = new HashMap<>();
 
+    @GetMapping("/products")
+    public Collection<Product> getAllProducts(){
+        System.out.println("getAll");
+        return products.values();
+    }
+
     @PostMapping("/product/add")
     public Product addProduct(@RequestParam("id") Long id,
                               @RequestParam("name") String name,
@@ -19,6 +25,4 @@ public class ProductController {
         products.put(id, product);
         return product;
     }
-
-
 }
