@@ -30,4 +30,19 @@ public class ProductController {
         products.put(id, product);
         return product;
     }
+
+    @PostMapping("/product/update")
+    public Product updateProduct(@RequestParam("id") Long id,
+                                 @RequestParam("name") String name,
+                                 @RequestParam("price") Long price,
+                                 @RequestParam("imageUrl") String imageUrl){
+        System.out.println("update");
+        Product product = null;
+        if(products.get(id) != null){
+            product = new Product(id, name, price, imageUrl);
+            products.put(id, product);
+        }
+        return product;
+    }
+
 }
