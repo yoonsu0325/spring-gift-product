@@ -45,4 +45,14 @@ public class ProductController {
         return product;
     }
 
+    @DeleteMapping("/product/delete")
+    public Product deleteProduct(@RequestParam("id") Long id){
+        System.out.println("delete");
+        Product product = products.get(id);
+        if(product != null){
+            products.remove(id);
+        }
+        return product;
+    }
+
 }
