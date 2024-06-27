@@ -32,6 +32,15 @@ public class ProductController {
         return "redirect:/manager/product/{id}";
     }
 
+    @PostMapping("/manager/product/delete/{id}")
+    public String deleteProduct(@PathVariable Long id){
+        System.out.println("delete");
+        Product product = products.get(id);
+        if(product != null){
+            products.remove(id);
+        }
+        return "redirect:/manager/products";
+    }
 
     @GetMapping("/manager/products")
     public String getProductsView(Model model){
