@@ -14,21 +14,28 @@
 <div class="container">
 
     <button type="button" id="create-btn"
-            th:onclick="|location.href='@{/product/add}'|"
+            th:onclick="|location.href='@{/manager/product/add}'|"
             class="btn btn-secondary btn-sm mb-3">상품 추가</button>
 
-    <div class="row-6" th:each="product : ${products}">
-        <div class="card">
-            <div class="card-header" th:text="${product.id}">
-            </div>
-            <div class="card-body">
-                <h5 class="card-title" th:text="${product.title}"></h5>
-                <p class="card=text" th:text="${product.content}"></p>
-                <a th:href="@{/product/update(id=${product.id})}" class="btn btn-primary">수정</a>
-                <a th:href="@{/product/delete(id=${product.id})}" class="btn btn-primary">삭제</a>
-            </div>
-        </div>
-        <br>
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>상품명</th>
+                <th>가격</th>
+                <th>이미지 URL</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product : ${products}">
+                <td><a href="ProductInfo.html" th:href="@{/manager/product/{id}(id=${product.id})}" th:text="${product.id}">회원id</a></td>
+                <td th:text="${product.name()}">상품명</a></td>
+                <td th:text="${product.price}">10000</td>
+                <td th:text="${product.imageUrl()}">10</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 </body>

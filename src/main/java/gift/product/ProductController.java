@@ -1,58 +1,73 @@
 package gift.product;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.util.*;
-
-@RestController
+@Controller
 public class ProductController {
     private final Map<Long, Product> products = new HashMap<>();
 
-    @GetMapping("/products")
-    public Collection<Product> getAllProducts(){
-        System.out.println("getAll");
-        return products.values();
-    }
-    @GetMapping("/product/get")
-    public Product getProduct(@RequestParam("id") Long id){
-        System.out.println("get");
-        return products.get(id);
-    }
-
-    @PostMapping("/product/add")
-    public Product addProduct(@RequestParam("id") Long id,
-                              @RequestParam("name") String name,
-                              @RequestParam("price") Long price,
-                              @RequestParam("imageUrl") String imageUrl){
+    @PostMapping("/manager/product/add")
+    public String addProduct(@ModelAttribute Product product, RedirectAttributes redirectAttributes){
         System.out.println("add");
-        Product product = new Product(id, name, price, imageUrl);
-        products.put(id, product);
-        return product;
+        products.put(product.id(), product);
+        redirectAttributes.addAttribute("id", product.id());
+        System.out.println(product.id());
+        return "redirect:/manager/product/{id}";
     }
 
-    @PostMapping("/product/update")
-    public Product updateProduct(@RequestParam("id") Long id,
-                                 @RequestParam("name") String name,
-                                 @RequestParam("price") Long price,
-                                 @RequestParam("imageUrl") String imageUrl){
+    @PostMapping("/manager/product/update/{id}")
+    public String updateProduct(@ModelAttribute Product product, RedirectAttributes redirectAttributes){
         System.out.println("update");
-        Product product = null;
-        if(products.get(id) != null){
-            product = new Product(id, name, price, imageUrl);
-            products.put(id, product);
-        }
-        return product;
+        products.put(product.id(), product);
+        redirectAttributes.addAttribute("id", product.id());
+        return "redirect:/manager/product/{id}";
     }
 
-    @DeleteMapping("/product/delete")
-    public Product deleteProduct(@RequestParam("id") Long id){
+    @PostMapping("/manager/product/delete/{id}")
+    public String deleteProduct(@PathVariable Long id){
         System.out.println("delete");
         Product product = products.get(id);
         if(product != null){
             products.remove(id);
         }
-        return product;
+        return "redirect:/manager/products";
     }
 
+    @GetMapping("/manager/products")
+    public String getProductsView(Model model){
+        model.addAttribute("products", products.values());
+        for (Product value : products.values()) {
+            System.out.println(value.name());
+
+        }
+        return "ManageProduct";
+    }
+
+    @GetMapping("/manager/product/add")
+    public String addProductView(Model model){
+        model.addAttribute("product", new Product(null,null,null,null));
+        return "AddOrUpdateProduct";
+    }
+
+    @GetMapping("/manager/product/update/{id}")
+    public String updateProductView(@PathVariable Long id, Model model){
+        model.addAttribute("product", products.get(id));
+        return "AddOrUpdateProduct";
+    }
+
+    @GetMapping("/manager/product/{id}")
+    public String getProduct(@PathVariable long id, Model model) {
+        Product product = products.get(id);
+        model.addAttribute("product", product);
+        return "ProductInfo";
+    }
 }
+
