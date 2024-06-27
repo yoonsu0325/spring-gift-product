@@ -15,6 +15,15 @@ import java.util.Map;
 public class ProductController {
     private final Map<Long, Product> products = new HashMap<>();
 
+    @PostMapping("/manager/product/add")
+    public String addProduct(@ModelAttribute Product product, RedirectAttributes redirectAttributes){
+        System.out.println("add");
+        products.put(product.id(), product);
+        redirectAttributes.addAttribute("id", product.id());
+        System.out.println(product.id());
+        return "redirect:/manager/product/{id}";
+    }
+
     @GetMapping("/manager/products")
     public String getProductsView(Model model){
         model.addAttribute("products", products.values());
