@@ -15,6 +15,15 @@ import java.util.Map;
 public class ProductController {
     private final Map<Long, Product> products = new HashMap<>();
 
+    @GetMapping("/manager/products")
+    public String getProductsView(Model model){
+        model.addAttribute("products", products.values());
+        for (Product value : products.values()) {
+            System.out.println(value.name());
+
+        }
+        return "ManageProduct";
+    }
 
     @GetMapping("/manager/product/add")
     public String addProductView(Model model){
