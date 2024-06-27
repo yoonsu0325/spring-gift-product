@@ -24,6 +24,15 @@ public class ProductController {
         return "redirect:/manager/product/{id}";
     }
 
+    @PostMapping("/manager/product/update/{id}")
+    public String updateProduct(@ModelAttribute Product product, RedirectAttributes redirectAttributes){
+        System.out.println("update");
+        products.put(product.id(), product);
+        redirectAttributes.addAttribute("id", product.id());
+        return "redirect:/manager/product/{id}";
+    }
+
+
     @GetMapping("/manager/products")
     public String getProductsView(Model model){
         model.addAttribute("products", products.values());
