@@ -64,5 +64,10 @@ public class ProductRepository {
         return new Product(id, updateParam.name(), updateParam.price(), updateParam.imageUrl());
     }
 
+    public void deleteProduct(Long id){
+        var sql = "delete from Products where id = ?";
+        jdbcTemplate.update(sql, id);
+    }
+
 
 }
