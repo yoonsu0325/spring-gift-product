@@ -27,5 +27,19 @@ public class ProductRepository {
         Long id = insertActor.executeAndReturnKey(parameters).longValue();
         return new Product(id, product.name(), product.price(), product.imageUrl());
     }
+    public Product selectProduct(Long id) {
+        var sql = "select id, name, price, imageUrl from Products where id = ?";
+        return jdbcTemplate.queryForObject(
+                sql,
+                (resultSet, rowNum) -> new Product(
+                        resultSet.getLong("id"),
+                        resultSet.getString("name"),
+                        resultSet.getLong("price"),
+                        resultSet.getString("imageUrl")
+                ),
+                id
+        );
+    }
+
 
 }
