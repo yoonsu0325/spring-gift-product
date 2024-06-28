@@ -1,0 +1,31 @@
+package gift.product;
+
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.stereotype.Repository;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Repository
+public class ProductRepository {
+    private final JdbcTemplate jdbcTemplate;
+    private SimpleJdbcInsert insertActor;
+    public ProductRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.insertActor = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("Products")
+                .usingGeneratedKeyColumns("id");
+    }
+
+    public Product insertProduct(Product product){
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("name", product.name());
+        parameters.put("price", product.price());
+        parameters.put("imageUrl", product.imageUrl());
+        Long id = insertActor.executeAndReturnKey(parameters).longValue();
+        return new Product(id, product.name(), product.price(), product.imageUrl());
+    }
+
+}
