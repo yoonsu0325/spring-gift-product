@@ -54,4 +54,15 @@ public class ProductRepository {
         );
     }
 
+    public Product updateProduct(Long id, Product updateParam){
+        var sql = "update Products set name=?, price=?, imageUrl=? where id = ?";
+        jdbcTemplate.update(sql,
+                updateParam.name(),
+                updateParam.price(),
+                updateParam.imageUrl(),
+                id);
+        return new Product(id, updateParam.name(), updateParam.price(), updateParam.imageUrl());
+    }
+
+
 }
