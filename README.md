@@ -20,3 +20,13 @@ step2 구현할 기능 목록
    - 상품 ID로 검색해서 삭제
    - 상품 수정 뷰 매핑
    - 상품 추가 뷰 매핑
+
+step3 구현할 기능 목록
+1. Repository 만들기
+  - 상품 추가
+  - 상품 조회
+  - 상품 전체 조회
+  - 상품 수정
+  - 상품 삭제
+2. Controller 수정하기 : HashMap 대신 Repository를 사용하도록 수정
+3. schema.sql 만들기
