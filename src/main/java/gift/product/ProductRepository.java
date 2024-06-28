@@ -41,5 +41,17 @@ public class ProductRepository {
         );
     }
 
+    public List<Product> selectProducts(){
+        var sql = "select id, name, price, imageUrl from Products";
+        return jdbcTemplate.query(
+                sql,
+                (resultSet, rowNum) -> new Product(
+                        resultSet.getLong("id"),
+                        resultSet.getString("name"),
+                        resultSet.getLong("price"),
+                        resultSet.getString("imageUrl")
+                )
+        );
+    }
 
 }
